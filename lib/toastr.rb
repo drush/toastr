@@ -40,6 +40,12 @@ module Toastr
         self.empty? || self.cache_json.present? && self.cached_at < self.expires.ago
       end
 
+      class << self
+        def fetch(params = {})
+          find_or_create_by(key: params.to_json).as_json
+        end
+      end
+
       def as_json
         case cache_state.to_sym
 
@@ -63,7 +69,7 @@ module Toastr
 
       def refresh!
         result = nil
-        elapsed = Benchmark.realtime { result = self.build! self[:key] }
+        elapsed = Benchmark.realtime { result = self.build! JSON.parse(self[:key]) }
         self.cache_json = result.merge({toastr: { elapsed: elapsed }})
         self.cached_at = Time.now
         self.complete!

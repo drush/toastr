@@ -1,6 +1,6 @@
 class RevenueReport < Report
 
-  def build!
+  def build!(params = {})
     return { 
       total: 1_000_000
     }
