@@ -63,7 +63,7 @@ module Toastr
 
       def refresh!
         result = nil
-        elapsed = Benchmark.realtime { result = self.build! }
+        elapsed = Benchmark.realtime { result = self.build! self[:key] }
         self.cache_json = result.merge({toastr: { elapsed: elapsed }})
         self.cached_at = Time.now
         self.complete!
