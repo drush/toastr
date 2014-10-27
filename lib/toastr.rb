@@ -42,7 +42,7 @@ module Toastr
 
       class << self
         def fetch(params = {})
-          find_or_create_by(key: params.to_json).as_json
+          find_or_create_by(key: params.to_json)
         end
       end
 
