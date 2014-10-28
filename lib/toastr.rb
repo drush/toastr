@@ -46,6 +46,10 @@ module Toastr
         end
       end
 
+      def build!(params = {})
+        raise NotImplementedError, 'You must implement a custom build!(params) method in the class being augmented by Toastr.'
+      end
+
       def as_json
         case cache_state.to_sym
 
