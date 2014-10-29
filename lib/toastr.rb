@@ -40,13 +40,7 @@ module Toastr
         self.empty? || self.cache_json.present? && self.cached_at < self.expires.ago
       end
 
-      class << self
-        def fetch(params = {})
-          find_or_create_by(key: params.to_json)
-        end
-      end
-
-      def build!(params = {})
+      def build!
         raise NotImplementedError, 'You must implement a custom build!(params) method in the class being augmented by Toastr.'
       end
 
@@ -73,7 +67,7 @@ module Toastr
 
       def refresh!
         result = nil
-        elapsed = Benchmark.realtime { result = self.build! JSON.parse(self[:key]) }
+        elapsed = Benchmark.realtime { result = self.build! }
         self.cache_json = result.merge({toastr: { elapsed: elapsed }})
         self.cached_at = Time.now
         self.complete!
