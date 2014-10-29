@@ -1,8 +1,10 @@
 class Report < ActiveRecord::Base
   augment Toastr::Cachable
 
-  def build!(params = {})
-    raise NotImplementedError, 'Report is an abstract class.  You must implement a custom build!() method in subclasses.'
+  class << self
+    def fetch(opts = {})
+      where(key: opts.to_json).first_or_create()
+    end
   end
 
   def expires
